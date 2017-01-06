@@ -27,33 +27,33 @@
   
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/form.html">회원가입</a></li>
-
+		<li><a href="/list.html">사용자 목록</a></li>
+		
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-  <div class="container">
-  <form action="/create" method="post">
-  <div class="form-group">
-    <label for="userId">사용자 아이디</label>
-    <input type="text" class="form-control" id="userId" name="userId" placeholder="userId">
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-  </div>
-    <div class="form-group">
-    <label for="name">이름</label>
-    <input type="text" class="form-control" id="name" name="name" placeholder="이름">
-  </div>
-  <div class="form-group">
-    <label for="email">이메일</label>
-    <input type="email" class="form-control" id="email" name="email" placeholder="이메일">
-  </div>
-
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
-</div>
+   	<div class="container">
+   		<table class="table table-condensed">
+   			<caption>사용자 목록</caption>
+   			<thead>
+   				<tr>
+   					<th>사용자 아이디</th>
+   					<th>이름</th>
+   					<th>이에일</th>
+   				</tr>
+   			</thead>
+   			<tbody>
+   				{{#users}}
+   				<tr>
+   					<th scope="row">{{userId}}</th>
+   					<td>{{name}}</td>
+   					<td>{{email}}</td>
+   				</tr>
+   				{{/users}}
+   			</tbody>
+   		</table>
+   	</div>
     <script src="/webjars/jquery/3.1.1/dist/jquery.js"></script>
     <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
   </body>
