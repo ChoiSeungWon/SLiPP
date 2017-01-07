@@ -1,0 +1,10 @@
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('1', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi1', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi2', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi3', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi4', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi5', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi6', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi7', 'test', '犁己', 'javajigi@sliip.net');
+insert into user (USER_ID, PASSWORD, NAME, EMAIL) values('javajigi8', 'test', '犁己', 'javajigi@sliip.net');
