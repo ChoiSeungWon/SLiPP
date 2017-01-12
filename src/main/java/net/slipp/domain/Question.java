@@ -1,25 +1,59 @@
 package net.slipp.domain;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Question {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
+	private User writer;
+	
+	private String title;
+	
+	private String contents;
+	
+	private LocalDateTime createDate;
+	
 	public Question(){}
 	
-	public Question(String writer, String title, String contents) {
+	public Question(User writer, String title, String contents) {
 		super();
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
+		this.createDate = LocalDateTime.now();
 	}
 	
-	private String writer;
-	private String title;
-	private String contents;
+	public String getFormattedCreateDate(){
+		if (createDate == null){
+			return "";
+		}
+		return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+	}
+
+	public void update(String title, String contents) {
+		// TODO Auto-generated method stub
+		this.title = title;
+		this.contents = contents;
+	}
+
+	public boolean isSameWriter(User loginUser) {
+		// TODO Auto-generated method stub
+		return this.writer.equals(loginUser);
+	}
+
+		
 	
 }
