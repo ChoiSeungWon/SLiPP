@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.slipp.domain.Question;
 import net.slipp.domain.QuestionRepository;
+import net.slipp.domain.Result;
 import net.slipp.domain.User;
 
 @Controller
@@ -52,16 +53,30 @@ public class QuestionController {
 	
 	@GetMapping("/{id}/form")
 	public String updateForm(@PathVariable Long id, Model model, HttpSession session){
-		try{
-			Question question = questionRepository.findOne(id);
-			hasPermission(session, question);
-			model.addAttribute("question", question);
-			return "/qna/updateForm";
-		}catch(IllegalStateException e){
-			model.addAttribute("errorMessage", e.getMessage());
+		Question question = questionRepository.findOne(id);
+		
+		Result result = vaild(session, question);
+		if(!result.isValid()){
+			model.addAttribute("errorMessage", result.getErrorMessage());
 			return "/user/login";
 		}
+
 		
+		model.addAttribute("question", question);
+		return "/qna/updateForm";
+	}
+	
+	private Result vaild(HttpSession session, Question question){
+		if(!HttpSessionUtils.isLoginUser(session)){
+			return Result.fial("로그인이 필요합니다.");
+		}
+		
+		User loginUser = HttpSessionUtils.getUserFromSession(session);
+		if(!question.isSameWriter(loginUser)){
+			return Result.fial("자신이 쓴 글만 수정, 삭제가 가능합니다.");
+		}
+		
+		return Result.ok(); 
 	}
 	
 	private boolean hasPermission(HttpSession session, Question question){
@@ -79,34 +94,35 @@ public class QuestionController {
 	
 	@PutMapping("/{id}")
 	public String update(@PathVariable Long id, String title, String contents,Model model, HttpSession session){
-		try{
-			Question question = questionRepository.findOne(id);
-			hasPermission(session, question);
+		Question question = questionRepository.findOne(id);
+		
+		Result result = vaild(session, question);
+		if(!result.isValid()){
+			model.addAttribute("errorMessage", result.getErrorMessage());
+			return "/user/login";
+		}
+
 			
 			question.update(title, contents);
 			questionRepository.save(question);
 			return String.format("redirect:/questions/%d",id);
 		
-		}catch(IllegalStateException e){
-			model.addAttribute("errorMessage", e.getMessage());
-			return "/user/login";
-		}
+		
 		
 	}
 	
 	@DeleteMapping("/{id}")
 	public String delete(@PathVariable Long id, HttpSession session, Model model){
-		try{
-			Question question = questionRepository.findOne(id);
-			hasPermission(session, question);
-			
-			questionRepository.delete(id);
-			return "redirect:/";
+		Question question = questionRepository.findOne(id);
 		
-		}catch(IllegalStateException e){
-			model.addAttribute("errorMessage", e.getMessage());
+		Result result = vaild(session, question);
+		if(!result.isValid()){
+			model.addAttribute("errorMessage", result.getErrorMessage());
 			return "/user/login";
 		}
+		
+		questionRepository.delete(id);
+		return "redirect:/";
 	}
 	
 }
