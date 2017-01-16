@@ -26,7 +26,7 @@ function onError(){
 function onSuccess(data, stauts){
 	console.log(data);
 	var answerTemplate = $('#answerTemplate').html();
-	var template = answerTemplate.format(data.user.userId, data.formattedCreateDate, data.contents, data.question.id, data.id);
+	var template = answerTemplate.format(data.user.userId, data.formattedCreateDate, data.contents, data.question.id, data.id,data.question.countOfAnswer);
 	$('.qna-comment-slipp-articles').prepend(template);
 	
 	$('textarea[name=contents]').val('');

@@ -9,12 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 //JPA 설정
 @Entity
-public class User {
-	//primary key 설정
-	@Id
-	@GeneratedValue // 자동 1 증가 
-	@JsonProperty
-	private Long id;
+public class User extends AbstractEntity {
 	
 	@Column(nullable=false, length=20, unique=true)
 	@JsonProperty
@@ -27,12 +22,7 @@ public class User {
 	@JsonProperty
 	private String email;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -59,7 +49,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+		return "User [" + super.toString() +", userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
 	}
 	public void update(User newUser) {
 		// TODO Auto-generated method stub
@@ -67,13 +57,7 @@ public class User {
 		this.name = newUser.name;
 		this.email = newUser.email;
 	}
-	public boolean matchId(Long newId){
-		if (newId == null){
-			return false;
-		}
-		
-		return newId.equals(id);
-	}
+
 	public boolean matchPassword(String newPassword){
 		if (newPassword == null){
 			return false;
@@ -81,28 +65,13 @@ public class User {
 		
 		return newPassword.equals(password);
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+
+	public boolean matchId(Long newId){
+		if (newId == null){
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+		}
+		
+		return newId.equals(getId());
 	}
 	
 	

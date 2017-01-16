@@ -17,11 +17,7 @@ import javax.persistence.OrderBy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class Question {
-	@Id
-	@GeneratedValue
-	@JsonProperty
-	private Long id;
+public class Question extends AbstractEntity{
 	
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "fk_question_writer"))
@@ -34,7 +30,9 @@ public class Question {
 	@JsonProperty
 	private String contents;
 	
-	private LocalDateTime createDate;
+	@JsonProperty
+	private Integer countOfAnswer = 0;
+	
 	
 	@OneToMany(mappedBy = "question")
 	@OrderBy("id DESC")
@@ -43,19 +41,12 @@ public class Question {
 	public Question(){}
 	
 	public Question(User writer, String title, String contents) {
-		super();
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
-		this.createDate = LocalDateTime.now();
 	}
 	
-	public String getFormattedCreateDate(){
-		if (createDate == null){
-			return "";
-		}
-		return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-	}
+
 
 	public void update(String title, String contents) {
 		// TODO Auto-generated method stub
@@ -68,6 +59,15 @@ public class Question {
 		return this.writer.equals(loginUser);
 	}
 
+	public void addAnswer() {
+		// TODO Auto-generated method stub
+		this.countOfAnswer += 1;
+	}
+	
+	public void deleteAnswer(){
+		this.countOfAnswer -= 1;
+	}
+	
 		
 	
 }
